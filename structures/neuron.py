@@ -3,14 +3,16 @@ from structures.activation_functions import ActivationFunction
 
 
 class Neuron:
-    weights: np.ndarray
-    activation_function: ActivationFunction
+    def __init__(self, input_shape: int, activation_function: ActivationFunction):
+        self.input_shape = input_shape
+        self.weights = np.random.random(input_shape + 1)
+        self.activation_function = activation_function()
 
     def activate(self, inputs: np.ndarray):
-        if inputs.shape != self.weights.shape:
-            raise ValueError("inputs shape is not the same as weights shape.")
+        # if inputs.shape != self.weights.shape:
+        #     raise ValueError("inputs shape is not the same as weights shape.")
         # Add bias to inputs
-        _inputs = np.insert(inputs, 0, 1)
+        _inputs = np.concatenate([np.ones((inputs.shape[0], 1)), inputs], axis=1)
 
         # Calculate dot product
         dot_product = np.dot(_inputs, self.weights)

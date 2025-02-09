@@ -2,8 +2,9 @@ import numpy as np
 
 
 class ActivationFunction:
-    _lambda: float
-    _name: str
+    def __init__(self, name, lbd=1):
+        self._lambda = lbd
+        self._name = name
 
     def derivative(self, *args):
         pass
@@ -24,3 +25,10 @@ class Sigmoid(ActivationFunction):
 
     def derivative(self, x):
         return self._lambda * self.func(x) * (1 - self.func(x))
+
+    def __call__(self, *args, **kwargs):
+        arg = args[0]
+        if type(arg) in (int, float):
+            return self.func(arg)
+        elif type(arg) == np.ndarray:
+            return np.vectorize(self.func)(arg)
