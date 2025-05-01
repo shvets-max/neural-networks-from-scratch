@@ -18,17 +18,11 @@ class Sigmoid(ActivationFunction):
         super().__init__(name, lbd)
 
     def func(self, x):
-        try:
-            return 1 / (1 + np.exp(-self._lambda * x))
-        except OverflowError as e:
-            return 1 / (1 + np.exp(-self._lambda * x / 10))
+        return 1 / (1 + np.exp(-self._lambda * x))
 
     def derivative(self, x):
-        return self._lambda * self.func(x) * (1 - self.func(x))
+        fx = self.func(x)
+        return self._lambda * fx * (1 - fx)
 
-    def __call__(self, *args, **kwargs):
-        arg = args[0]
-        if type(arg) in (int, float):
-            return self.func(arg)
-        elif type(arg) == np.ndarray:
-            return np.vectorize(self.func)(arg)
+    def __call__(self, x):
+        return self.func(x)
