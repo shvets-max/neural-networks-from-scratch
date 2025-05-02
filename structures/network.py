@@ -32,7 +32,7 @@ class OOPNetwork:
             )
             act_deriv = (
                 identity_deriv if task == "regression" and is_last else
-                lambda z: np.ones_like(z) if self.is_multiclass and is_last else
+                identity if self.is_multiclass and is_last else
                 self.activation_deriv
             )
             self.layers.append(OptimizedLayer(layer_sizes[i], layer_sizes[i + 1], act_func, act_deriv))
@@ -157,7 +157,7 @@ if __name__ == "__main__":
     X_train, X_test, y_train, y_test = train_test_split(X, y.reshape(-1, 1), test_size=0.2, random_state=42)
 
     # Network parameters
-    layer_sizes = [5, 16, 64, last_layer_size]
+    layer_sizes = [5, 10, 20, last_layer_size]
     epochs = 200
     lr = 0.1
 

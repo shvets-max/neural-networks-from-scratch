@@ -21,7 +21,7 @@ class OptimizedLayer:
     def compute_deltas(self, next_weights, next_deltas):
         # next_weights: shape (next_layer_neurons, current_layer_neurons + 1)
         W = next_weights[:, 1:]  # skip bias
-        delta = self.activation_deriv(self.last_z) * np.dot(W.T, next_deltas)
+        delta = self.activation_deriv(self.last_z) * (W.T @ next_deltas)
         return delta
 
     def backward(self, deltas, lr):
